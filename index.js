@@ -22,7 +22,6 @@ cloudinary.config({
 
 
 
-const url = process.env.APP_URL || 'https://loook-applicant-bot.herokuapp.com:433';
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN,{
   // polling:true,
   webHook : {
@@ -30,6 +29,7 @@ const bot = new TelegramBot(process.env.TELEGRAM_TOKEN,{
     host : process.env.HOST
   }
 });
+const url = 'https://loook-applicant-bot.herokuapp.com:433';
 bot.setWebHook(`${url}/bot${process.env.TELEGRAM_TOKEN}`);
 
 
