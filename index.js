@@ -26,10 +26,11 @@ const bot = new TelegramBot(process.env.TELEGRAM_TOKEN,{
   // polling:true,
   webHook : {
     port : process.env.PORT || 8080,
-    host : process.env.HOST
+    // host : process.env.HOST
   }
 });
-const url = 'https://loook-applicant-bot.herokuapp.com:433';
+console.log(process.env.APP_URL);
+const url = 'https://loook-applicant-bot.herokuapp.com';
 bot.setWebHook(`${url}/bot${process.env.TELEGRAM_TOKEN}`);
 
 
