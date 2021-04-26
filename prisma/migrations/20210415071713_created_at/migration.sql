@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `t_applicant` ADD COLUMN     `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3);

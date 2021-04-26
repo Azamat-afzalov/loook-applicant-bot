@@ -1,0 +1,99 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model t_applicant {
+  id                  Int                @id @default(autoincrement())
+  first_name          String             @db.VarChar(50)
+  last_name           String             @db.VarChar(50)
+  middle_name         String             @db.VarChar(50)
+  birth_date          String             @db.VarChar(50)
+  phone               String             @db.VarChar(50)
+  branch              t_branch           @relation(fields: [branchId],references: [id])
+  branchId            Int                @map("branch_id")
+  position            String             @db.VarChar(50)
+  photo               String?            @db.VarChar(256)
+  shift               t_applicant_shift? @default(OPEN)
+  address             String?            @db.Text
+  employeeId          Int?               @map("employee_id")
+  manager_comment     String?            @db.Text
+  interview_comment   String?            @db.Text
+  sentBranchId        Int?               @map("sent_branch_id")
+  sendToBranchTime    DateTime?          @map("sent_to_branch_time")
+  rate                Int?               @map("learning_result")
+  status              t_applicant_status
+  created_at          DateTime           @default(now())
+  deleted             Boolean            @db.TinyInt
+
+  @@index([branchId], name: "branchId")
+  @@index([position], name: "position")
+}
+
+model t_branch {
+  id         Int       @id @default(autoincrement())
+  applicants t_applicant[]
+  company_id Int
+  created_by Int?
+  updated_by Int?
+  name       String    @db.VarChar(100)
+  code       String?   @db.VarChar(10)
+  timezone   String    @db.VarChar(100)
+  start_work String    @db.VarChar(8)
+  end_work   String    @db.VarChar(8)
+  is_hq      Boolean   @default(false)
+  work_days  String    @db.VarChar(100)
+  created_at DateTime? @db.DateTime(0)
+  updated_at DateTime? @db.DateTime(0)
+  deleted_at DateTime? @db.DateTime(0)
+  deleted    Boolean   @default(false)
+
+  @@index([company_id], name: "company_id")
+  @@index([created_by], name: "created_by")
+  @@index([deleted, created_by, id], name: "deleted_created_by_id")
+  @@index([updated_by], name: "updated_by")
+}
+
+model t_job_position {
+  id                  Int       @id @default(autoincrement())
+  company_id          Int
+  branch_id           Int
+  department_id       Int
+  created_by          Int?
+  updated_by          Int?
+  name                String    @db.VarChar(50)
+  description         String?   @db.VarChar(100)
+  requirement         Int?      @default(1)
+  is_recruitment_open Boolean?  @default(false)
+  is_kitchen          Boolean?  @default(false)
+  is_delivery         Boolean   @default(false)
+  created_at          DateTime? @db.DateTime(0)
+  updated_at          DateTime? @db.DateTime(0)
+  deleted_at          DateTime? @db.DateTime(0)
+  deleted             Boolean   @default(false)
+
+  @@index([branch_id], name: "branch_id")
+  @@index([company_id], name: "company_id")
+  @@index([created_by], name: "created_by")
+  @@index([department_id], name: "department_id")
+  @@index([updated_by], name: "updated_by")
+}
+
+enum t_applicant_shift {
+  OPEN
+  CLOSE
+}
+
+enum t_applicant_status {
+  NEW
+  INTERVIEW
+  TRAINING
+  INTERN
+  REJECTED
+  ACCEPTED
+  VERIFIED
+}

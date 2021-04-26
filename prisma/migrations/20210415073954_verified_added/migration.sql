@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `t_applicant` MODIFY `status` ENUM('NEW', 'INTERVIEW', 'TRAINING', 'INTERN', 'REJECTED', 'ACCEPTED', 'VERIFIED') NOT NULL;
