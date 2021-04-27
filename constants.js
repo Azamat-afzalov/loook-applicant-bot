@@ -38,22 +38,22 @@ module.exports = {
   ],
   branches : [
     {
-      value : 'Юнусабад',
+      value : 3,
       ru : 'Юнусабад',
       uz : 'Yunusobod'
     },
     {
-      value : 'Чиланзар',
+      value : 5,
       ru : 'Чиланзар',
       uz : 'Chilonzor'
     },
     {
-      value : 'Беруний',
+      value : 4,
       ru : 'Беруний',
       uz : 'Beruniy'
     },
     {
-      value : 'Central Kitchen',
+      value : 7,
       ru : 'Central Kitchen',
       uz : 'Central Kitchen' 
     }

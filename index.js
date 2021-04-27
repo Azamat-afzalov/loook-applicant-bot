@@ -1,18 +1,17 @@
 require('dotenv').config();
 const fs = require('fs');
 const TelegramBot = require('node-telegram-bot-api');
-const {PrismaClient} = require('@prisma/client');
 const express = require('express');
+const axios = require('axios');
 const app = express();
-app.use(express.json());
-
-const prisma = new PrismaClient();
 const cloudinary = require('cloudinary');
 
 const keyboard = require('./keyboards');
 const kb = require('./keyboardButtons');
 const texts = require('./texts');
 const constants = require('./constants');
+
+app.use(express.json());
 
 cloudinary.config({ 
   cloud_name: process.env.CLOUDINARY_CLOUD, 
@@ -33,15 +32,7 @@ if(process.env.NODE_ENV === 'production') {
 }
 
 const bot = new TelegramBot(process.env.TELEGRAM_TOKEN,config);
-console.log(process.env.NODE_ENV);
-// {
-//   // polling:true,
-//   webHook : {
-//     port : process.env.PORT || 8080,
-//     // host : process.env.HOST
-//   }
-// }
-// console.log(process.env.APP_URL);
+
 if(process.env.NODE_ENV === 'production') {
   const url = 'https://loook-applicant-bot.herokuapp.com';
   bot.setWebHook(`${url}/bot${process.env.TELEGRAM_TOKEN}`);
@@ -411,24 +402,17 @@ bot.on('photo', async (msg) => {
     answer : userPhoto.url
   })
   
-  const branch = constants.branches.find(b => b[lang] === getAnswer('branch'));
-  const foundBranch = await prisma.t_branch.findFirst({
-    where : {
-      name : branch.value
-    },
-    select: {
-      name : true,
-      id : true
-    }
-  });
+  const branch_id = constants.branches.find(b => b[lang] === getAnswer('branch'))?.value;
   const [last_name, first_name, ...middle_name] = getAnswer('fullName').split(' ');
   const shift = constants.shifts.find(sh => sh[lang] === getAnswer('shift')).value;
   const position = constants.positions.find(sh => sh[lang] === getAnswer('position')).value;
   try {
-    const user = await prisma.t_applicant.create({
-      data : {
+    const response = await axios
+      .default
+      .post('https://api.sieves.uz/v1/waiter-system/create-applicant',{
         birth_date : getAnswer('birthDate'),
-        branchId : foundBranch.id,
+        branch_id,
+        company_id: 1,
         first_name,
         last_name,
         middle_name: middle_name.join(' '),
@@ -438,44 +422,20 @@ bot.on('photo', async (msg) => {
         shift,
         address : getAnswer('address'),
         status : 'NEW',
-        deleted : false
-      }
-    }); 
+        deleted : 0
+      })
+    console.log(response);
     answers = [];
-    bot.sendMessage(chatId, texts.successfulRegister[lang]);
+    bot.sendMessage(chatId, texts.successfulRegister[lang], {
+      reply_markup : {
+        keyboard : keyboard.application[lang],
+          resize_keyboard : true,
+          remove_keyboard : true,
+          one_time_keyboard : true
+      }
+    });
   } catch (error) {
     console.log(error);
     bot.sendMessage(chatId,texts.errorMessage[lang]);
   }
 });
-
-
-
-
-  // bot.on('callback_query', async query => {
-  //   const chatId = query.message.chat.id;
-  //   let data;
-  //   try {
-  //     data = JSON.parse(query.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   if(data.name === 'branch') {
-  //     const branch = constants.branches.find(br => br.value === data.id)[lang];
-  //     console.log('branch',branch);
-  //     bot.answerCallbackQuery(query.id,{
-  //       cache_time:0,
-  //       text:branch
-  //     });
-  //     answers.push({
-  //       question : data.name,
-  //       answer : data.id
-  //     });
-  //     console.log('Answers', answers);
-  //     const question = questions.find(question => question.label === 'position');
-  //     const answer = await askQuestion(chatId,question,question.options);
-  //   }
-  //   //  else if(data.name === 'position') {
-      
-  //   // }
-  // });
