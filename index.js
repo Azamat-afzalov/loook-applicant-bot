@@ -19,19 +19,33 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY, 
   api_secret: process.env.CLOUDINARY_API_SECRET 
 });
-
-
-
-const bot = new TelegramBot(process.env.TELEGRAM_TOKEN,{
-  // polling:true,
-  webHook : {
-    port : process.env.PORT || 8080,
-    // host : process.env.HOST
+let config ;
+if(process.env.NODE_ENV === 'production') {
+  config = {
+    webHook : {
+      port : process.env.PORT || 4040
+    }
   }
-});
-console.log(process.env.APP_URL);
-const url = 'https://loook-applicant-bot.herokuapp.com';
-bot.setWebHook(`${url}/bot${process.env.TELEGRAM_TOKEN}`);
+} else {
+  config = {
+    polling : true
+  }
+}
+
+const bot = new TelegramBot(process.env.TELEGRAM_TOKEN,config);
+console.log(process.env.NODE_ENV);
+// {
+//   // polling:true,
+//   webHook : {
+//     port : process.env.PORT || 8080,
+//     // host : process.env.HOST
+//   }
+// }
+// console.log(process.env.APP_URL);
+if(process.env.NODE_ENV === 'production') {
+  const url = 'https://loook-applicant-bot.herokuapp.com';
+  bot.setWebHook(`${url}/bot${process.env.TELEGRAM_TOKEN}`);
+}
 
 
 let lang='uz';
@@ -42,11 +56,12 @@ const questions = [
     ru: 'Фамилия Имя Отчество',
     label: 'fullName',
     createOptions : () => ({
-      reply_markup : {
-        keyboard : [
-          kb.cancel.uz.cancel
-        ]
-      }
+      // reply_markup : {
+      //   keyboard : [
+      //     // [kb.cancel.uz.cancel]
+      //   ],
+      //   resize_keyboard : true
+      // }
     }),
     validate : (value) => {
       const valueArr = value.split(" ")
@@ -88,8 +103,8 @@ const questions = [
       return true
     },
     validationMessage : {
-      uz : "Tug'ilgan sana (kun.oy.yil) ko'rinishida bo'lishi kerak",
-      ru: 'Дата рождение должен быть в виде (день.месяц.год)'
+      uz : "Tug'ilgan sana (yil-kun-oy) ko'rinishida bo'lishi kerak",
+      ru: 'Дата рождение должен быть в виде (год-месяц-день)'
     }
   },
   {
