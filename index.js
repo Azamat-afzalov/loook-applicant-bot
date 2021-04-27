@@ -314,6 +314,7 @@ bot.onText(/\/start/, msg => {
 
 bot.on('message' , async msg => {
   const chatId = msg.chat.id;
+  console.log(msg.text);
   const callback = answerCallbacks[chatId];
   if (callback) {
     delete answerCallbacks[chatId];
