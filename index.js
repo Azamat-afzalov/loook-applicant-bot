@@ -535,11 +535,11 @@ bot.on('photo', async (msg) => {
   })
   
   const branch_id = constants.branches.find(b => b[lang] === getAnswer('branch'))?.value;
-  const [last_name, first_name, ...middle_name] = getAnswer('fullName').split(' ');
-  const shift = constants.shifts.find(sh => sh[lang] === getAnswer('shift')).value;
-  const position = constants.positions.find(sh => sh[lang] === getAnswer('position')).value;
-  const education = constants.education.find(sh => sh[lang] === getAnswer('education')).value;
-  const salary = constants.salary.find(sh => sh[lang] === getAnswer('salary')).value;
+  const [last_name, first_name, ...middle_name] = getAnswer('fullName')?.split(' ');
+  const shift = constants.shifts.find(sh => sh[lang] === getAnswer('shift'))?.value;
+  const position = constants.positions.find(sh => sh[lang] === getAnswer('position'))?.value;
+  const education = constants.education.find(sh => sh[lang] === getAnswer('education'))?.value;
+  const salary = constants.salary.find(sh => sh[lang] === getAnswer('salary'))?.value;
   
   try {
     const response = await axios
@@ -553,18 +553,16 @@ bot.on('photo', async (msg) => {
         middle_name: middle_name.join(' '),
         phone : getAnswer('phoneNumber'),
         photo : getAnswer('photo'),
-
         education,
         languages: getAnswer('languages'),
         salary,
-
         position,
         shift,
         address : getAnswer('address'),
         status : 'NEW',
         deleted : 0
-      })
-    console.log(response);
+      });
+    console.log(response.data);
     answers = [];
     bot.sendMessage(chatId, texts.successfulRegister[lang], {
       reply_markup : {
