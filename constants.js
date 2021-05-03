@@ -70,6 +70,45 @@ module.exports = {
       ru : 'Ночное'
     }
   ],
+  education : [
+    {
+      value : 'Maktab',
+      uz: 'Maktab',
+      ru: 'Школа'
+    },
+    {
+      value: 'Litsey yoki kollej',
+      uz: 'Litsey yoki kollej',
+      ru: 'Лицей или коллеж'
+    },
+    {
+      value: 'Universitet yoki Institut',
+      uz: 'Universitet yoki Institut',
+      ru: 'Университет или Институт'
+    }
+  ],
+  salary : [
+    {
+      value: '1500000',
+      uz: '1 500 000 so\'m',
+      ru: '1 500 500 сум'
+    },
+    {
+      value : '2000000',
+      uz: "2 000 000 so'm",
+      ru: "2 000 000 so'm"
+    }, 
+    {
+      value : "3000000",
+      uz: "3 000 000 so'm",
+      ru: "3 000 000 сум"
+    },
+    {
+      value : '3000000+',
+      uz: "3 000 000 so'mdan ko'p",
+      ru: "Больше 3 000 000 сума"
+    }
+  ],
   cancel : [
     {
       value : 'CANCEL',

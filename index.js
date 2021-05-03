@@ -38,6 +38,14 @@ if(process.env.NODE_ENV === 'production') {
   bot.setWebHook(`${url}/bot${process.env.TELEGRAM_TOKEN}`);
 }
 
+// Malumoti ['Maktab', 'Litsey yoki Kollej', 'Universited yoki Institut']
+// Qaysi tillarni bilishingizni yozing. Masalan O'zbek, rus va ingliz tili
+// Bizning korxonamizdan qancha maosh kutyapsiz? ['1.500.000', '2.000.000', '3.000.000', '3.000.000 +']
+
+// Eslatma! Sizni anketangiz ko'rib chiqish jarayonida.
+// Mavjud ish o'rni bo'lishi bilan xodimlar bo'limi vakili siz bilan
+// aloqaga chiqadi.
+
 
 let lang='uz';
 const answerCallbacks = {};
@@ -67,8 +75,8 @@ const questions = [
     }
   },
   {
-    uz: 'Tug\'ilgan sanangiz (yil-oy-kun) ko\'rinishida',
-    ru: 'Дата рождение в виде (год-месяц-день)',
+    uz: 'Tug\'ilgan sanangiz (yil-oy-kun) ko\'rinishida.Masalan: 1992-03-22',
+    ru: 'Дата рождение в виде (год-месяц-день).Например: 1992-03-22',
     label : 'birthDate',
     createOptions : () => ({
       keyboard : constants.cancel.map(br => {
@@ -109,6 +117,58 @@ const questions = [
       ru: 'Номер телефона должен быть в формате 998901234567'
     }
   },
+  //education
+  {
+    uz: 'Malumotingiz',
+    ru: 'Образование',
+    label: 'education',
+    options :{
+      reply_markup: {
+        keyboard : constants.education.map(br => {
+          return  [
+            {
+              text : br[lang],
+              callback_data: JSON.stringify({
+                id: br.value,
+                name: 'education'
+              })
+            }
+          ]
+        })
+        
+      }
+    },
+    createOptions : () => ({
+      reply_markup: {
+        keyboard : constants.education.map(br => {
+          return  [
+            {
+              text : br[lang],
+              callback_data: JSON.stringify({
+                id: br.value,
+                name: 'education'
+              })
+            }
+          ]
+        })
+        
+      }
+    }),
+    validate: (value) => {
+      let isEducation = false; // check if value is real branch 
+      constants.education.forEach(edu => {
+        if(edu[lang] === value) {
+          isEducation = true
+        }
+      })
+      return isEducation;
+    },
+    validationMessage : {
+      ru : "Неправильный вариант",
+      uz : "Noto'g'ri variant"
+    }
+  },
+  //address
   {
     uz: 'Manzilingizni kiriting',
     ru: 'Введите адрес',
@@ -120,8 +180,21 @@ const questions = [
       ru: 'Номер телефона должен быть в формате 998901234567'
     }
   },
+  //languages
   {
-    uz: 'Filialni tanlang',
+    uz: 'Qaysi tillarni bilasiz?',
+    ru: 'Какие языки знаете?',
+    label : 'languages',
+    createOptions : () => ({}),
+    validate : (value) =>  true,
+    validationMessage : {
+      uz : "",
+      ru: ''
+    }
+  },
+  //branch
+  {
+    uz: 'Qaysi filialda ishlash qulay ?',
     ru: 'Виберите филиал',
     label: 'branch',
     options :{
@@ -170,6 +243,7 @@ const questions = [
       uz : "Noto'g'ri filial"
     }
   },
+  //position
   {
     uz: 'Pozitsiyani tanlang',
     ru: 'Выберите позицию',
@@ -220,6 +294,7 @@ const questions = [
       uz : "Noto'g'ri pozitsiya tanlangan"
     }
   },
+  //shift
   {
     uz: 'Ish vaqtini tanlang',
     ru: 'Виберите время работы',
@@ -271,6 +346,58 @@ const questions = [
       uz : "Noto'g'ri ish vaqti tanlangan"
     }
   },
+  //salary
+  {
+    uz: 'Bizning korxonamizdan qancha maosh kutyapsiz?',
+    ru: 'Какое зарплату ожидаете от нас?',
+    label: 'salary',
+    options :{
+      reply_markup: {
+        keyboard : constants.salary.map(br => {
+          return  [
+            {
+              text : br[lang],
+              callback_data: JSON.stringify({
+                id: br.value,
+                name: 'salary'
+              })
+            }
+          ]
+        })
+        
+      }
+    },
+    createOptions : () => ({
+      reply_markup: {
+        keyboard : constants.salary.map(br => {
+          return  [
+            {
+              text : br[lang],
+              callback_data: JSON.stringify({
+                id: br.value,
+                name: 'salary'
+              })
+            }
+          ]
+        })
+        
+      }
+    }),
+    validate: (value) => {
+      let isSalary = false; // check if value is real branch 
+      constants.salary.forEach(val => {
+        if(val[lang] === value) {
+          isSalary = true;
+        }
+      })
+      return isSalary;
+    },
+    validationMessage : {
+      ru : "Неправильный вариант",
+      uz : "Noto'g'ri variant"
+    }
+  },
+  //photo
   {
     uz: 'Rasmingizni yuboring',
     ru: 'Отправляйте свою фотографию',
@@ -406,6 +533,9 @@ bot.on('photo', async (msg) => {
   const [last_name, first_name, ...middle_name] = getAnswer('fullName').split(' ');
   const shift = constants.shifts.find(sh => sh[lang] === getAnswer('shift')).value;
   const position = constants.positions.find(sh => sh[lang] === getAnswer('position')).value;
+  const education = constants.education.find(sh => sh[lang] === getAnswer('education')).value;
+  const salary = constants.salary.find(sh => sh[lang] === getAnswer('salary')).value;
+  
   try {
     const response = await axios
       .default
@@ -418,6 +548,11 @@ bot.on('photo', async (msg) => {
         middle_name: middle_name.join(' '),
         phone : getAnswer('phoneNumber'),
         photo : getAnswer('photo'),
+
+        education,
+        languages: getAnswer('languages'),
+        salary,
+
         position,
         shift,
         address : getAnswer('address'),
