@@ -541,6 +541,26 @@ bot.on('photo', async (msg) => {
   const salary = constants.salary.find(sh => sh[lang] === getAnswer('salary')).value;
   
   try {
+    console.log({
+      birth_date : getAnswer('birthDate'),
+      branch_id,
+      company_id: 1,
+      first_name,
+      last_name,
+      middle_name: middle_name.join(' '),
+      phone : getAnswer('phoneNumber'),
+      photo : getAnswer('photo'),
+
+      education,
+      languages: getAnswer('languages'),
+      salary,
+
+      position,
+      shift,
+      address : getAnswer('address'),
+      status : 'NEW',
+      deleted : 0
+    })
     const response = await axios
       .default
       .post('https://api.sieves.uz/v1/waiter-system/create-applicant',{
