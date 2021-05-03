@@ -404,8 +404,8 @@ const questions = [
   },
   //photo
   {
-    uz: 'Rasmingizni yuboring',
-    ru: 'Отправляйте свою фотографию',
+    uz: "O'zingizni suratingizni selfi qilib jo'nating.",
+    ru: 'Отправляйте свою фотографию в виде селфи.',
     label: 'photo',
     createOptions : () => ({
       reply_markup : {
