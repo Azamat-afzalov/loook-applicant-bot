@@ -50,6 +50,7 @@ if(process.env.NODE_ENV === 'production') {
 let lang='uz';
 const answerCallbacks = {};
 const questions = [
+  //fullName
   {
     uz: 'Familiya ism sharifingizni kiriting',
     ru: 'Фамилия Имя Отчество',
@@ -74,6 +75,7 @@ const questions = [
       ru : 'Фамилия Имя Отчество должен быть в формате (AAA BBB CCC)'
     }
   },
+  //birthDate
   {
     uz: 'Tug\'ilgan sanangiz (yil-oy-kun) ko\'rinishida.Masalan: 1992-03-22',
     ru: 'Дата рождение в виде (год-месяц-день).Например: 1992-03-22',
@@ -106,15 +108,16 @@ const questions = [
       ru: 'Дата рождение должен быть в виде (год-месяц-день)'
     }
   },
+  //phone
   {
-    uz: 'Telefon raqamingizni kiriting 998901234567 ko\'rinishida',
-    ru: 'Введите номер телефона в формате 998901234567',
+    uz: 'Telefon raqamingizni kiriting 901234567 ko\'rinishida',
+    ru: 'Введите номер телефона в формате 901234567',
     label : 'phoneNumber',
     createOptions : () => ({}),
-    validate : (value) =>  (value.startsWith('998') && value.length === 12),
+    validate : (value) =>  (value.length === 9),
     validationMessage : {
-      uz : "Telefon raqamingiz 998901234567 ko\'rinishida bo'lishi kerak",
-      ru: 'Номер телефона должен быть в формате 998901234567'
+      uz : "Telefon raqamingiz 901234567 ko\'rinishida bo'lishi kerak",
+      ru: 'Номер телефона должен быть в формате 901234567'
     }
   },
   //education
@@ -134,8 +137,8 @@ const questions = [
               })
             }
           ]
-        })
-        
+        }),
+        resize_keyboard : true
       }
     },
     createOptions : () => ({
@@ -176,8 +179,8 @@ const questions = [
     createOptions : () => ({}),
     validate : (value) =>  true,
     validationMessage : {
-      uz : "Telefon raqamingiz 998901234567 ko\'rinishida bo'lishi kerak",
-      ru: 'Номер телефона должен быть в формате 998901234567'
+      uz : "",
+      ru: ''
     }
   },
   //languages
@@ -260,8 +263,8 @@ const questions = [
               })
             }
           ]
-        })
-        
+        }),
+        resize_keyboard : true
       }
     },
     createOptions : () => ({
@@ -363,8 +366,8 @@ const questions = [
               })
             }
           ]
-        })
-        
+        }),
+        resize_keyboard : true,
       }
     },
     createOptions : () => ({
