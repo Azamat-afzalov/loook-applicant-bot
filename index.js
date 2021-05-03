@@ -138,6 +138,7 @@ const questions = [
             }
           ]
         }),
+        remove_keyboard : true,
         resize_keyboard : true
       }
     },
