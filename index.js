@@ -155,6 +155,7 @@ const questions = [
           ]
         }),
         remove_keyboard : true,
+        one_time_keyboard : true,
         resize_keyboard : true
       }
     }),
