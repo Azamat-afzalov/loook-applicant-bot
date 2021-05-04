@@ -45,7 +45,7 @@ const questions = [
   //fullName
   {
     uz: "Familiya, ism, sharifingizni quyidagi ko'rinishda kiriting: ➡️ \nMurodov Sardor Bahrom o'g'li",
-    ru: 'Фамилия Имя Отчество',
+    ru: "Заполнить ФИО в нижеследующем  образе ➡️ \nMurodov Sardor Bahrom o'g'li",
     label: 'fullName',
     createOptions : () => ({
     }),
@@ -64,7 +64,7 @@ const questions = [
   //birthDate
   {
     uz: "Tug'ilgan sanangizni quyidagi ko'rinishda kiriting: ➡️ 1992.03.22",
-    ru: 'Дата рождение в виде (год-месяц-день).Например: 1992-03-22',
+    ru: "Заполнить дата рождения в нижеследующем  образе ➡️1992.03.22",
     label : 'birthDate',
     createOptions : () => ({
       keyboard : constants.cancel.map(br => {
@@ -97,7 +97,7 @@ const questions = [
   //phone
   {
     uz: "📱Telefon nomeringizni quyidagi ko'rinishda kiriting: ➡️ \n974342121",
-    ru: 'Введите номер телефона в формате 901234567',
+    ru: "📱Введите свой номер телефона нижеследующим  образе : ➡️ \n974342121",
     label : 'phoneNumber',
     createOptions : () => ({}),
     validate : (value) =>  (value.length === 9),
@@ -109,7 +109,7 @@ const questions = [
   //education
   {
     uz: "🎓 Ma'lumotingizni tanlang 👇",
-    ru: 'Образование',
+    ru: "🎓 Выберите вашу образование👇",
     label: 'education',
     options :{
       reply_markup: {
@@ -162,7 +162,7 @@ const questions = [
   //address
   {
     uz: "📍Hozirgi yashash manzilingizni quyidagi ko'rinishda kiriting: ➡️ \nToshkent, Uch tepa tuman, Botu 4, 25 uy",
-    ru: 'Введите адрес',
+    ru: '📍Введите текущий адрес место жительство в форму ниже: ➡️ \nToshkent, Uch tepa tuman, Botu 4, 25 uy',
     label : 'address',
     createOptions : () => ({}),
     validate : (value) =>  true,
@@ -174,7 +174,7 @@ const questions = [
   //languages
   {
     uz: "🇺🇿 Qaysi tillarni bilishingizni quyidagi ko'rinishda kiriting: ➡️\n O'zbek, Rus, Ingliz",
-    ru: 'Какие языки знаете?',
+    ru: '🇺🇿 Укажите какими языками владеете: ➡️ \nУзбекский, русский, Английский',
     label : 'languages',
     createOptions : () => ({}),
     validate : (value) =>  true,
@@ -186,7 +186,7 @@ const questions = [
   //branch
   {
     uz: "🏪 Qaysi filialimizda ishlash sizga qulay? Tanlang 👇",
-    ru: 'Виберите филиал',
+    ru: '🏪 Выберите, в каком филиале вам удобно работать 👇',
     label: 'branch',
     options :{
       reply_markup: {
@@ -237,7 +237,7 @@ const questions = [
   //position
   {
     uz: "Pozitsiyani tanlang👇",
-    ru: 'Выберите позицию',
+    ru: 'Выберите позицию👇',
     label: 'position',
     options :{
       reply_markup: {
@@ -288,7 +288,7 @@ const questions = [
   //shift
   {
     uz: "🕖 Ish vaqtini tanlang 👇",
-    ru: 'Виберите время работы',
+    ru: '🕖Выберите рабочую время👇',
     label: 'shift',
     createOptions : () => {
       return {
@@ -340,7 +340,7 @@ const questions = [
   //salary
   {
     uz: "💴 Bizning korxonamizdan qancha maosh kutyapsiz? Tanlang 👇",
-    ru: 'Какое зарплату ожидаете от нас?',
+    ru: '💴Выберите, какую зарплату вы ожидаете от нас в нашей компании 👇',
     label: 'salary',
     options :{
       reply_markup: {
@@ -391,7 +391,7 @@ const questions = [
   //photo
   {
     uz: "📸 O'zingizni suratingizni selfi qilib jo'nating",
-    ru: 'Отправляйте свою фотографию в виде селфи.',
+    ru: '📸 Сфотографируй себя и отправь',
     label: 'photo',
     createOptions : () => ({
       reply_markup : {
@@ -462,6 +462,7 @@ bot.on('message' , async msg => {
       break;  
     case kb.application[lang]['apply']: 
       isAnswering = true;
+      bot.sendMessage(chatId, texts.sendApplication[lang]);
       for await (let question of questions) {
         const options = question.createOptions();
         let answer

@@ -11,6 +11,10 @@ module.exports = {
     ru: `Вы успешно зарегистрированы.\nПримечание!Мы рассматриваем ваш заявку.\nПри открытие рабочего место с вами будет представитель отдела кадров связаться.`,
     uz: `✅ Siz muvaffaqqiyatli ro'yxatdan o'tdingiz\n\n🧐 Sizning arizangiz ko'rib chiqish jarayonida\n☎️ Mavjud ish o'rni bo'lishi bilan, xodimlar bo'limi vakili siz bilan aloqaga chiqadi\n\n😊 LOOOK Vacancy botidan foydalanganiz uchun rahmat`
   },
+  sendApplication : {
+    ru : "📝 Заполнить и сдать анкету на кандидата (сдать заявление кандидата)",
+    uz : "📝 Nomzodlik arizasini topshirish"
+  },
   errorMessage : {
     uz : "❗️ Botda hatolik kuzatildi iltimos keyinroq urinib ko'ring.",
     ru : "❗️ Ошыбка в работе бота.Пожалуйста попробуйте позже."
