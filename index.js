@@ -38,21 +38,13 @@ if(process.env.NODE_ENV === 'production') {
   bot.setWebHook(`${url}/bot${process.env.TELEGRAM_TOKEN}`);
 }
 
-// Malumoti ['Maktab', 'Litsey yoki Kollej', 'Universited yoki Institut']
-// Qaysi tillarni bilishingizni yozing. Masalan O'zbek, rus va ingliz tili
-// Bizning korxonamizdan qancha maosh kutyapsiz? ['1.500.000', '2.000.000', '3.000.000', '3.000.000 +']
-
-// Eslatma! Sizni anketangiz ko'rib chiqish jarayonida.
-// Mavjud ish o'rni bo'lishi bilan xodimlar bo'limi vakili siz bilan
-// aloqaga chiqadi.
-
 
 let lang='uz';
 const answerCallbacks = {};
 const questions = [
   //fullName
   {
-    uz: 'Familiya ism sharifingizni kiriting',
+    uz: "Familiya, ism, sharifingizni quyidagi ko'rinishda kiriting: ➡️ \nMurodov Sardor Bahrom o'g'li",
     ru: 'Фамилия Имя Отчество',
     label: 'fullName',
     createOptions : () => ({
@@ -77,7 +69,7 @@ const questions = [
   },
   //birthDate
   {
-    uz: 'Tug\'ilgan sanangiz (yil-oy-kun) ko\'rinishida.Masalan: 1992-03-22',
+    uz: "Tug'ilgan sanangizni quyidagi ko'rinishda kiriting: ➡️ 1992.03.22",
     ru: 'Дата рождение в виде (год-месяц-день).Например: 1992-03-22',
     label : 'birthDate',
     createOptions : () => ({
@@ -110,7 +102,7 @@ const questions = [
   },
   //phone
   {
-    uz: 'Telefon raqamingizni kiriting 901234567 ko\'rinishida',
+    uz: "📱Telefon nomeringizni quyidagi ko'rinishda kiriting: ➡️ \n974342121",
     ru: 'Введите номер телефона в формате 901234567',
     label : 'phoneNumber',
     createOptions : () => ({}),
@@ -122,7 +114,7 @@ const questions = [
   },
   //education
   {
-    uz: 'Malumotingiz',
+    uz: "🎓 Ma'lumotingizni tanlang 👇",
     ru: 'Образование',
     label: 'education',
     options :{
@@ -175,7 +167,7 @@ const questions = [
   },
   //address
   {
-    uz: 'Manzilingizni kiriting',
+    uz: "📍Hozirgi yashash manzilingizni quyidagi ko'rinishda kiriting: ➡️ \nToshkent, Uch tepa tuman, Botu 4, 25 uy",
     ru: 'Введите адрес',
     label : 'address',
     createOptions : () => ({}),
@@ -187,7 +179,7 @@ const questions = [
   },
   //languages
   {
-    uz: 'Qaysi tillarni bilasiz?',
+    uz: "🇺🇿 Qaysi tillarni bilishingizni quyidagi ko'rinishda kiriting: ➡️\n O'zbek, Rus, Ingliz",
     ru: 'Какие языки знаете?',
     label : 'languages',
     createOptions : () => ({}),
@@ -199,7 +191,7 @@ const questions = [
   },
   //branch
   {
-    uz: 'Qaysi filialda ishlash qulay ?',
+    uz: "🏪 Qaysi filialimizda ishlash sizga qulay? Tanlang 👇",
     ru: 'Виберите филиал',
     label: 'branch',
     options :{
@@ -250,7 +242,7 @@ const questions = [
   },
   //position
   {
-    uz: 'Pozitsiyani tanlang',
+    uz: "Pozitsiyani tanlang👇",
     ru: 'Выберите позицию',
     label: 'position',
     options :{
@@ -301,7 +293,7 @@ const questions = [
   },
   //shift
   {
-    uz: 'Ish vaqtini tanlang',
+    uz: "🕖 Ish vaqtini tanlang 👇",
     ru: 'Виберите время работы',
     label: 'shift',
     createOptions : () => {
@@ -353,7 +345,7 @@ const questions = [
   },
   //salary
   {
-    uz: 'Bizning korxonamizdan qancha maosh kutyapsiz?',
+    uz: "💴 Bizning korxonamizdan qancha maosh kutyapsiz? Tanlang 👇",
     ru: 'Какое зарплату ожидаете от нас?',
     label: 'salary',
     options :{
@@ -404,7 +396,7 @@ const questions = [
   },
   //photo
   {
-    uz: "O'zingizni suratingizni selfi qilib jo'nating.",
+    uz: "📸 O'zingizni suratingizni selfi qilib jo'nating",
     ru: 'Отправляйте свою фотографию в виде селфи.',
     label: 'photo',
     createOptions : () => ({

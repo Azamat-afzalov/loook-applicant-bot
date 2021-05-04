@@ -1,7 +1,7 @@
 module.exports = {
   home : {
-    uz: 'O\'zbekcha 🇺🇿',
-    ru : 'Русский 🇷🇺'
+    uz : "O'zbekcha 🇺🇿",
+    ru : "Русский 🇷🇺"
   },
   application : {
     uz : {
@@ -15,11 +15,11 @@ module.exports = {
   },
   cancel : {
     uz : {
-      retry : 'Boshidan boshlash',
+      retry : 'Boshidan boshlash 🔄',
       cancel : 'Bekor qilish ❌'
     },
     ru : {
-      retry : 'Начать заново',
+      retry : 'Начать заново 🔄',
       cancel : "Отменить ❌"
     }
   }
