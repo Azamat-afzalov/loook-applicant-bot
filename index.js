@@ -48,12 +48,6 @@ const questions = [
     ru: 'Фамилия Имя Отчество',
     label: 'fullName',
     createOptions : () => ({
-      // reply_markup : {
-      //   keyboard : [
-      //     // [kb.cancel.uz.cancel]
-      //   ],
-      //   resize_keyboard : true
-      // }
     }),
     validate : (value) => {
       const valueArr = value.split(" ")
@@ -87,7 +81,7 @@ const questions = [
     }),
     validate : (value) => {
       const valueArr = value
-        .split('-')
+        .split('.')
         .map(v => Number(v))
         .filter(v => (!isNaN(v)));  
       if(valueArr.length !== 3){
@@ -96,8 +90,8 @@ const questions = [
       return true
     },
     validationMessage : {
-      uz : "Tug'ilgan sana (yil-kun-oy) ko'rinishida bo'lishi kerak",
-      ru: 'Дата рождение должен быть в виде (год-месяц-день)'
+      uz : "❗️ Tug'ilgan sana (yil.kun.oy) ko'rinishida bo'lishi kerak",
+      ru: '❗️ Дата рождение должен быть в виде (год.месяц.день)'
     }
   },
   //phone
@@ -459,7 +453,7 @@ bot.on('message' , async msg => {
       })
       break;
     case kb.application[lang]['goBack']: 
-      bot.sendMessage(chatId, texts.pickLanguage[lang], {
+      bot.sendMessage(chatId, `Tilni tanlang\n\nВыберите языка`, {
         reply_markup : {
           keyboard: keyboard.home,
           resize_keyboard: true
@@ -537,7 +531,7 @@ bot.on('photo', async (msg) => {
     const response = await axios
       .default
       .post('https://api.sieves.uz/v1/waiter-system/create-applicant',{
-        birth_date : getAnswer('birthDate'),
+        birth_date : getAnswer('birthDate').replace(/\./g, '-'),
         branch_id,
         company_id: 1,
         first_name,
