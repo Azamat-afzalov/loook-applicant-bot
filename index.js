@@ -554,9 +554,9 @@ bot.on('photo', async (msg) => {
     bot.sendMessage(chatId, texts.successfulRegister[lang], {
       reply_markup : {
         keyboard : keyboard.application[lang],
-          resize_keyboard : true,
-          remove_keyboard : true,
-          one_time_keyboard : true
+        resize_keyboard : true,
+        remove_keyboard : true,
+        one_time_keyboard : true
       }
     });
   } catch (error) {
