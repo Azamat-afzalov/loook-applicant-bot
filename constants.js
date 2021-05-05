@@ -52,11 +52,11 @@ module.exports = {
       ru : 'Беруний',
       uz : 'Beruniy'
     },
-    {
-      value : 7,
-      ru : 'Central Kitchen',
-      uz : 'Central Kitchen' 
-    }
+    // {
+    //   value : 7,
+    //   ru : 'Central Kitchen',
+    //   uz : 'Central Kitchen' 
+    // }
   ],
   shifts : [
     {
@@ -68,6 +68,11 @@ module.exports = {
       value : 'CLOSE',
       uz : 'Kechki',
       ru : 'Ночное'
+    },
+    {
+      value : 'ANY',
+      uz : 'Kunduzgi / Kechki',
+      ru : 'Дневное / Ночное'
     }
   ],
   education : [
