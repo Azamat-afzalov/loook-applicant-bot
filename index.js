@@ -1,5 +1,4 @@
 require('dotenv').config();
-const fs = require('fs');
 const TelegramBot = require('node-telegram-bot-api');
 const express = require('express');
 const axios = require('axios');
@@ -154,6 +153,82 @@ const questions = [
       })
       return isEducation;
     },
+    validationMessage : {
+      ru : "Неправильный вариант",
+      uz : "Noto'g'ri variant"
+    }
+  },
+  //status
+  {
+    uz : 'Hozir nima bilan bandsiz ? Tanlang 👇',
+    ru : 'Чем занимаэтесь сейчас ? Выберите 👇',
+    label : 'currentStatus',
+    options : {
+      reply_markup: {
+        keyboard : constants.currentStatus.map(br => {
+          return  [
+            {
+              text : br[lang],
+              callback_data: JSON.stringify({
+                id: br.value,
+                name: 'currentStatus'
+              })
+            }
+          ]
+        })   
+      }
+    },
+    createOptions : () => ({
+      reply_markup: {
+        keyboard : constants.currentStatus.map(br => {
+          return  [
+            {
+              text : br[lang],
+              callback_data: JSON.stringify({
+                id: br.value,
+                name: 'currentStatus'
+              })
+            }
+          ]
+        }),
+        remove_keyboard : true,
+        one_time_keyboard : true,
+        resize_keyboard : true
+      }
+      
+    }),
+    validate: (value) => {
+      let isValid = false; // check if value is real branch 
+      constants.currentStatus.forEach(edu => {
+        if(edu[lang] === value) {
+          isValid = true;
+        }
+      })
+      return isValid;
+    },
+    validationMessage : {
+      ru : "Неправильный вариант",
+      uz : "Noto'g'ri variant"
+    }
+  },
+  //education place
+  {
+    uz : "Qaysi o'qishda o'qiyotganingizni quyidagi ko'rinishda kiriting: \nTosheknt axborot texnologiyalari universiteti, 3-kurs",
+    ru : "В каким училише учитесь? Например Ташкентский Информационно технологический университет",
+    label: "educationPlace",
+    createOptions : () => ({}),
+    validate: (value) => true,
+    validationMessage : {
+      ru : "Неправильный вариант",
+      uz : "Noto'g'ri variant"
+    }
+  },
+  {
+    uz : "Avvalgi ish joyingiz to'g'risida ma'lumotni quyidagi ko'rinishda kiriting: Humo kafe, kassir.\n Bo'shash sababi: ish joyi uzoqligi",
+    ru : "Введите прежнюю рабочое местo в нижеследующем  образе : кафе Хумо \n.Причина уволнении: место работы далеко с дома.",
+    label: "previousWork",
+    createOptions : () => ({}),
+    validate: (value) => true,
     validationMessage : {
       ru : "Неправильный вариант",
       uz : "Noto'g'ri variant"
@@ -464,8 +539,14 @@ bot.on('message' , async msg => {
       isAnswering = true;
       bot.sendMessage(chatId, texts.sendApplication[lang]);
       for await (let question of questions) {
+        if(question.label === 'educationPlace') {
+          const prevAnswer = answers.find(a => a.label === 'currentStatus');
+          if(prevAnswer.text === 'Ishsiz' || prevAnswer.text === 'Безработник') {
+            continue;
+          }
+        }
         const options = question.createOptions();
-        let answer
+        let answer;
         while (true) {
           answer = await askQuestion(
             chatId, 

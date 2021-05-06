@@ -120,5 +120,17 @@ module.exports = {
       uz: 'Bekor qilish',
       ru: 'Отменить'
     }
+  ],
+  currentStatus : [
+    {
+      value : 'UNEMPLOYED',
+      uz : 'Ishsiz',
+      ru : 'Безработник'
+    }, 
+    {
+      value : 'STUDENT',
+      uz : 'Talaba',
+      ru : 'Студент'
+    }
   ]
 }
