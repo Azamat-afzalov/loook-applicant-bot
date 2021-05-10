@@ -18,19 +18,20 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET 
 });
 let config ;
+let bot ;
 if(process.env.NODE_ENV === 'production') {
   config = {
     webHook : {
       port : process.env.PORT || 4040
     }
   }
+  bot = new TelegramBot(process.env.TELEGRAM_TOKEN,config)
 } else {
   config = {
     polling : true
   }
+  bot = new TelegramBot(process.env.TELEGRAM_TEST_TOKEN,config);
 }
-
-const bot = new TelegramBot(process.env.TELEGRAM_TOKEN,config);
 
 if(process.env.NODE_ENV === 'production') {
   const url = 'https://loook-applicant-bot.herokuapp.com';
@@ -223,9 +224,10 @@ const questions = [
       uz : "Noto'g'ri variant"
     }
   },
+  //working place
   {
-    uz : "Avvalgi ish joyingiz to'g'risida ma'lumotni quyidagi ko'rinishda kiriting: Humo kafe, kassir.\n Bo'shash sababi: ish joyi uzoqligi",
-    ru : "Введите прежнюю рабочое местo в нижеследующем  образе : кафе Хумо \n.Причина уволнении: место работы далеко с дома.",
+    uz : "Avvalgi yoki hozirgi ish joyingiz to'g'risida ma'lumotni quyidagi ko'rinishda kiriting: \nHumo kafe, kassir.Bo'shash sababi: ish joyi uzoqligi",
+    ru : "Введите прежнюю рабочое местo в нижеследующем  образе :\nкафе Хумо .Причина уволнении: место работы далеко с дома.",
     label: "previousWork",
     createOptions : () => ({}),
     validate: (value) => true,
@@ -486,6 +488,7 @@ const questions = [
 let answers = [];
 let isAnswering = false;
 
+
 bot.onText(/\/start/, msg => {
   const chatId = msg.chat.id;
   bot.sendMessage(chatId, `Tilni tanlang\n\nВыберите языка` , {
@@ -539,13 +542,20 @@ bot.on('message' , async msg => {
       isAnswering = true;
       bot.sendMessage(chatId, texts.sendApplication[lang]);
       for await (let question of questions) {
-        console.log('quesionLabel', question.label);
-        console.log('educationPlace', question.label === 'educationPlace');
-        
+        // console.log('quesionLabel', question.label);
+        // console.log('educationPlace', question.label === 'educationPlace');
+        console.log(question.label);
         if(question.label === 'educationPlace') {
           const prevAnswer = answers.find(a => a.label === 'currentStatus');
-          console.log('prevAnswer', prevAnswer);
-          if(prevAnswer.text === 'Ishsiz' || prevAnswer.text === 'Безработник') {
+          if(prevAnswer.answer === 'Ishsiz' || prevAnswer.answer === 'Безработник'
+            || prevAnswer.answer === 'Ishlayman' || prevAnswer.answer === 'Работаю'
+          ) {
+            continue;
+          }
+        }
+        if(question.label === 'previousWork') {
+          const prevAnswer = answers.find(a => a.label === 'currentStatus');
+          if(prevAnswer.answer === 'Talaba' || prevAnswer.answer === 'Студент') {
             continue;
           }
         }

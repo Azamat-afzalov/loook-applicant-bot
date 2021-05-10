@@ -131,6 +131,11 @@ module.exports = {
       value : 'STUDENT',
       uz : 'Talaba',
       ru : 'Студент'
+    },
+    {
+      value : 'EMPLOYED',
+      uz : 'Ishlayman',
+      ru : 'Работаю'
     }
   ]
 }
