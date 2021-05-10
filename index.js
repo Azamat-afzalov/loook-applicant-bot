@@ -539,8 +539,12 @@ bot.on('message' , async msg => {
       isAnswering = true;
       bot.sendMessage(chatId, texts.sendApplication[lang]);
       for await (let question of questions) {
+        console.log('quesionLabel', question.label);
+        console.log('educationPlace', question.label === 'educationPlace');
+        
         if(question.label === 'educationPlace') {
           const prevAnswer = answers.find(a => a.label === 'currentStatus');
+          console.log('prevAnswer', prevAnswer);
           if(prevAnswer.text === 'Ishsiz' || prevAnswer.text === 'Безработник') {
             continue;
           }
