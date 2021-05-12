@@ -218,7 +218,7 @@ const questions = [
     ru : "В каким училише учитесь? Например Ташкентский Информационно технологический университет",
     label: "educationPlace",
     createOptions : () => ({}),
-    validate: (value) => true,
+    validate: () => true,
     validationMessage : {
       ru : "Неправильный вариант",
       uz : "Noto'g'ri variant"
@@ -230,7 +230,7 @@ const questions = [
     ru : "Введите прежнюю рабочое местo в нижеследующем  образе :\nкафе Хумо .Причина уволнении: место работы далеко с дома.",
     label: "previousWork",
     createOptions : () => ({}),
-    validate: (value) => true,
+    validate: () => true,
     validationMessage : {
       ru : "Неправильный вариант",
       uz : "Noto'g'ri variant"
@@ -622,7 +622,8 @@ bot.on('photo', async (msg) => {
   const position = constants.positions.find(sh => sh[lang] === getAnswer('position'))?.value;
   const education = constants.education.find(sh => sh[lang] === getAnswer('education'))?.value;
   const salary = constants.salary.find(sh => sh[lang] === getAnswer('salary'))?.value;
-  
+  const currentStatus = constants.currentStatus.find(st => st[lang] == getAnswer('currentStatus'))?.value;
+
   try {
     const response = await axios
       .default
@@ -642,7 +643,10 @@ bot.on('photo', async (msg) => {
         shift,
         address : getAnswer('address'),
         status : 'NEW',
-        deleted : 0
+        deleted : 0,
+        currentStatus,
+        education_place: getAnswer('educationPlace'),
+        previous_work : getAnswer('previousWork')
       });
     console.log(response.data);
     answers = [];
