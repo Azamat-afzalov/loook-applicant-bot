@@ -597,7 +597,7 @@ const askQuestion = async (chatId, question, options) => {
   });
 };
 const getAnswer = (field) => {
-  return answers.find(a => a.label === field).answer;
+  return answers.find(a => a.label === field)?.answer;
 }
 
 bot.on('photo', async (msg) => {
